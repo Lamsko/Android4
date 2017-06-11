@@ -33,45 +33,49 @@ public class ActionBarActivity extends Activity implements ActionBar.TabListener
         ActionBar myAB = getActionBar();
         myAB.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        myAB.addTab(myAB.newTab().setText("tab1").setTabListener(this));
-        myAB.addTab(myAB.newTab().setText("tab2").setTabListener(this));
-        myAB.addTab(myAB.newTab().setText("tab3").setTabListener(this));
+        ActionBar.Tab tab1 = myAB.newTab().setText("tab1").setTabListener(this);
+        ActionBar.Tab tab2 = myAB.newTab().setText("tab2").setTabListener(this);
+        ActionBar.Tab tab3 = myAB.newTab().setText("tab3").setTabListener(this);
+        myAB.addTab(tab1);
+        myAB.addTab(tab2);
+        myAB.addTab(tab3);
+        myAB.selectTab(tab1);
     }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+        transakcja = getFragmentManager().beginTransaction();
         int tabNumber = tab.getPosition();
         switch (tabNumber) {
-            case 1:
+            case 0:
                 transakcja.attach(f11);
                 break;
-            case 2:
-                transakcja.detach(f11);
-                transakcja.detach(f13);
+            case 1:
                 transakcja.attach(f12);
                 break;
-            case 3:
-                transakcja.detach(f12);
-                transakcja.detach(f11);
+            case 2:
                 transakcja.attach(f13);
                 break;
         }
+        transakcja.commit();
     }
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
         int tabNumber = tab.getPosition();
+        transakcja = getFragmentManager().beginTransaction();
         switch (tabNumber) {
-            case 1:
+            case 0:
                 transakcja.detach(f11);
                 break;
-            case 2:
+            case 1:
                 transakcja.detach(f12);
                 break;
-            case 3:
+            case 2:
                 transakcja.detach(f13);
                 break;
         }
+        transakcja.commit();
     }
 
     @Override
